@@ -1,14 +1,12 @@
 require("dotenv").config({ path: ".env" });
 const express = require("express");
 const mongoose = require("mongoose");
+const errorHandler = require("./middleware/error")
+
 const app = express();
 
 app.use(express.json());
 app.use("/api/auth", require("./routes/auth.route"));
-
-//start server
-const port = process.env.PORT;
-app.listen(port, () => console.log(`server is running on ${port}`));
 
 //connect to MongoDB Atlas
 const mongoUri = process.env.MONGODB_URI;
@@ -29,4 +27,13 @@ const connectDB = async () => {
 };
 
 connectDB()
+
+//Error Handler last middleware
+app.use(errorHandler)
+
+//start server
+const port = process.env.PORT;
+app.listen(port, () => console.log(`server is running on ${port}`));
+
+
 

@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const ErrorResponse = require("../utils/errorResponse");
+const errorResponse = require("../utils/errorResponse");
 
 exports.register = async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -15,9 +17,7 @@ exports.register = async (req, res, next) => {
       user,
     });
   } catch (error) {
-    res.status(500).json({
-      error: error.message,
-    });
+    next(er);
   }
 };
 
@@ -26,19 +26,16 @@ exports.login = async (req, res, next) => {
 
   //check both fields were entered
   if (!email || !password) {
-    res
-      .status(400)
-      .json({ success: false, error: "Please provide an email and password" });
+    return next(new ErrorResponse("Please provide email and password", 400));
   }
   //does user exist
   try {
     //look for user
     const user = await User.findOne({ email }).isSelected("password");
+
     // no user found
     if (!user) {
-      res
-        .status(404)
-        .json({ success: false, error: "invalid Email or Password" });
+      return next(new ErrorResponse("User not found", 401));
     }
 
     //user found validate password
@@ -46,9 +43,7 @@ exports.login = async (req, res, next) => {
 
     //wrong password
     if (!isMatch) {
-      res
-        .status(404)
-        .json({ success: false, error: "Invalid username or password" });
+      return next(new ErrorResponse("Invalid email or password", 401));
     }
 
     //correct password
@@ -57,10 +52,7 @@ exports.login = async (req, res, next) => {
       token: "sdxfvbkbui67",
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message,
-    });
+    next(error);
   }
 
   res.send("login router");
