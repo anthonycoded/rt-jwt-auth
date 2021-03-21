@@ -5,7 +5,7 @@ import axios from "axios";
 const Register = ({ authorized, setAuthorized }) => {
   const history = useHistory();
   const registerUrl = process.env.REACT_APP_REGISTER_URL;
-  const [error, setError] = useState({})
+  const [error, setError] = useState({});
   const [input, setInput] = useState({
     username: "",
     password: "",
@@ -48,9 +48,8 @@ const Register = ({ authorized, setAuthorized }) => {
 
       console.log(response);
     } catch (error) {
-      let response = error.response.data
-      console.log(response.error)
-      alert(response.error)
+      let response = error.response.data;
+      alert(response.error);
     }
   };
   if (authorized) {

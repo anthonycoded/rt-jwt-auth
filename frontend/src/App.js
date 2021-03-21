@@ -6,9 +6,11 @@ import Admin from "./components/Admin";
 import Header from "./components/UI/Header";
 import LandingPage from "./components/LandingPage";
 import Register from "./components/Authentication/Register";
+import Login from "./components/Authentication/Login"
 
 const App = () => {
   const [authorized, setAuthorized] = useState(false);
+  console.log(authorized)
 
   return (
     <div className="h-full">
@@ -24,6 +26,12 @@ const App = () => {
               authorized={authorized}
               setAuthorized={setAuthorized}
             ></Register>
+          </Route>
+          <Route path="/login">
+            <Login
+              authorized={authorized}
+              setAuthorized={setAuthorized}
+            ></Login>
           </Route>
         </Switch>
       </Router>

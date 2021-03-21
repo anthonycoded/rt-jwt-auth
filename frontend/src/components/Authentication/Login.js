@@ -1,14 +1,48 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import axios from "axios";
 
-import dj from "../../assets/gorilla.jpg";
+const Login = ({ authorized, setAuthorized }) => {
+  const loginUrl = process.env.REACT_APP_LOGIN_URL;
+  const history = useHistory();
+  const [input, setInput] = useState({
+    email: "",
+    password: "",
+  });
 
-const Login = () => {
+  const inputChange = (e) => {
+    e.preventDefault();
+    setInput({
+      ...input,
+      [e.currentTarget.name]: e.currentTarget.value,
+    });
+  };
+
+  const login = async () => {
+    const postData = {
+      email: input.email,
+      password: input.password,
+    };
+    try {
+      let response = await axios.post(loginUrl, postData, {
+        Headers: {
+          "Content-Type": "Application/json",
+        },
+      });
+      console.log(response.data);
+      history.push("/");
+    } catch (error) {
+      let response = error.response.data;
+      console.log(error.response.data);
+      alert(response.error);
+    }
+  };
+
+  if (authorized) {
+    history.push("/");
+  }
   return (
     <div className="w-full h-full bg-yellow-400 p-8 py-12 space-y-8">
-      <div className="h-32 w-full flex justify-center items-center mb-4">
-        <img src={dj} alt="bear" className="h-32 rounded-md"></img>
-      </div>
       <div className="flex flex-col items-center space-y-4">
         <p className="font-bold text-4xl">Welcome Back!</p>
         <p className="text-xl font-medium">Sign into your account</p>
@@ -20,6 +54,8 @@ const Login = () => {
             className="h-12 w-full px-4 rounded-full shadow-lg"
             id="email"
             placeholder="example@email.com"
+            name="email"
+            onChange={(e) => inputChange(e)}
           ></input>
         </div>
         <div className="flex flex-col items-center space-y-2">
@@ -27,6 +63,8 @@ const Login = () => {
             type="password"
             className="h-12 w-full px-4 rounded-full shadow-lg"
             placeholder="Password"
+            name="password"
+            onChange={(e) => inputChange(e)}
           ></input>
 
           <div className="flex justify-end w-full">
@@ -37,7 +75,10 @@ const Login = () => {
         </div>
       </div>
       <div className="flex justify-end w-full h-full">
-        <button className="flex justify-center items-center py-2 px-2 bg-green-400 hover:bg-green-300 h-12 w-32 rounded-xl shawdow-xl">
+        <button
+          onClick={() => login()}
+          className="flex justify-center items-center py-2 px-2 bg-green-400 hover:bg-green-300 h-12 w-32 rounded-xl shawdow-xl"
+        >
           Sign In
         </button>
       </div>
