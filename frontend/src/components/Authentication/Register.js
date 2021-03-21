@@ -43,13 +43,18 @@ const Register = ({ authorized, setAuthorized }) => {
         succes: true,
         message: "new account created",
       });
+
+      //setToken, authorize and redirect
       setAuthorized(true);
+      localStorage.setItem("token", responseData.token);
       history.push("/");
 
       console.log(response);
     } catch (error) {
-      let response = error.response.data;
-      alert(response.error);
+      if (error) {
+        let response = error.response.data;
+        alert(response.error);
+      }
     }
   };
   if (authorized) {

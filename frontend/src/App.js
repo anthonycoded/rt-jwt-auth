@@ -1,24 +1,33 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useHistory,
+} from "react-router-dom";
 
 import "./app.css";
 import Admin from "./components/Admin";
 import Header from "./components/UI/Header";
 import LandingPage from "./components/LandingPage";
 import Register from "./components/Authentication/Register";
-import Login from "./components/Authentication/Login"
+import Login from "./components/Authentication/Login";
 
 const App = () => {
   const [authorized, setAuthorized] = useState(false);
-  console.log(authorized)
+  console.log(authorized);
 
   return (
     <div className="h-full">
       <Router>
-        <Header className="display-block"></Header>
+        <Header className="display-block" authorized={authorized} setAuthorized={setAuthorized}></Header>
         <Switch>
           <Route path="/" exact>
-            <LandingPage></LandingPage>
+            <LandingPage
+              authorized={authorized}
+              setAuthorized={setAuthorized}
+            ></LandingPage>
           </Route>
           <Route path="/admin" component={Admin}></Route>
           <Route path="/register">

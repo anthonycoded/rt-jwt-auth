@@ -1,11 +1,18 @@
 import React, { useState } from "react";
-import {Link} from "react-router-dom"
+import { Link, useHistory } from "react-router-dom";
 import Menu from "../UI/Menu";
 import Drawer from "../UI/Drawer";
 
-const Header = () => {
+const Header = ({ authorized, setAuthorized }) => {
   const [open, setOpen] = useState(false);
-  
+  const history = useHistory();
+
+  const logout = () => {
+    localStorage.clear();
+    setAuthorized(false);
+    history.push("/");
+  };
+
   return (
     <div className="pb-12">
       <div className="bg-gray-700 h-14 flex justify-between items-center fixed w-full px-4">
@@ -27,7 +34,13 @@ const Header = () => {
           </Link>
         </div>
       </div>
-      {open ? <Drawer setOpen={setOpen}></Drawer> : undefined}
+      {open ? (
+        <Drawer
+          setOpen={setOpen}
+          authorized={authorized}
+          logout={logout}
+        ></Drawer>
+      ) : undefined}
     </div>
   );
 };

@@ -29,8 +29,11 @@ const Login = ({ authorized, setAuthorized }) => {
           "Content-Type": "Application/json",
         },
       });
-      console.log(response.data);
+      let data = response.data
+      localStorage.setItem("token", data.token);
+      setAuthorized(true)
       history.push("/");
+      
     } catch (error) {
       let response = error.response.data;
       console.log(error.response.data);
@@ -38,9 +41,6 @@ const Login = ({ authorized, setAuthorized }) => {
     }
   };
 
-  if (authorized) {
-    history.push("/");
-  }
   return (
     <div className="w-full h-full bg-yellow-400 p-8 py-12 space-y-8">
       <div className="flex flex-col items-center space-y-4">

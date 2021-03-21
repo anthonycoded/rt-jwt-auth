@@ -1,6 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
-const LandingPage = () => {
+const LandingPage = ({ authorized, setAuthorized }) => {
+  const history = useHistory();
+  const checkToken = async () => {
+    let token = await localStorage.getItem("token");
+    console.log(token);
+    setAuthorized(true);
+
+  };
+
+  useEffect(() => {
+    checkToken();
+  }, []);
+
   return (
     <div className=" flex flex-col justify-center p-8 items-center">
       <p className="font-bold text-5xl text-green-500 mb-8">Hello World</p>
