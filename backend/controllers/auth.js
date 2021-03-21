@@ -12,12 +12,9 @@ exports.register = async (req, res, next) => {
       password,
     });
 
-    res.status(201).json({
-      success: true,
-      user,
-    });
+    sendToken(user, 201, res)
   } catch (error) {
-    next(er);
+    next(error);
   }
 };
 
@@ -31,7 +28,7 @@ exports.login = async (req, res, next) => {
   //does user exist
   try {
     //look for user
-    const user = await User.findOne({ email }).isSelected("password");
+    const user = await User.findOne({ email }).select("password");
 
     // no user found
     if (!user) {
@@ -47,10 +44,7 @@ exports.login = async (req, res, next) => {
     }
 
     //correct password
-    res.status(200).json({
-      success: true,
-      token: "sdxfvbkbui67",
-    });
+    sendToken(user, 201, res);
   } catch (error) {
     next(error);
   }
@@ -64,4 +58,12 @@ exports.forgotPassword = (req, res, next) => {
 
 exports.passwordReset = (req, res, next) => {
   res.send("resetPassword router");
+};
+
+const sendToken = (user, statusCode, res) => {
+  const token = user.getSignedToken();
+  res.status(statusCode).json({
+    success: true,
+    token,
+  });
 };

@@ -6,7 +6,8 @@ const errorHandler = require("./middleware/error")
 const app = express();
 
 app.use(express.json());
-app.use("/api/auth", require("./routes/auth.route"));
+app.use("/api/auth/", require("./routes/auth.route"));
+app.use("/api/private/", require("./routes/private.route"));
 
 //connect to MongoDB Atlas
 const mongoUri = process.env.MONGODB_URI;
