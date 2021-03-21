@@ -13,6 +13,7 @@ import Header from "./components/UI/Header";
 import LandingPage from "./components/LandingPage";
 import Register from "./components/Authentication/Register";
 import Login from "./components/Authentication/Login";
+import ProtectedRoute from "./components/ProtectedRoute"
 
 const App = () => {
   const [authorized, setAuthorized] = useState(false);
@@ -21,7 +22,11 @@ const App = () => {
   return (
     <div className="h-full">
       <Router>
-        <Header className="display-block" authorized={authorized} setAuthorized={setAuthorized}></Header>
+        <Header
+          className="display-block"
+          authorized={authorized}
+          setAuthorized={setAuthorized}
+        ></Header>
         <Switch>
           <Route path="/" exact>
             <LandingPage
@@ -41,6 +46,12 @@ const App = () => {
               authorized={authorized}
               setAuthorized={setAuthorized}
             ></Login>
+          </Route>
+          <Route path="/account">
+            <ProtectedRoute
+              authorized={authorized}
+              setAuthorized={setAuthorized}
+            ></ProtectedRoute>
           </Route>
         </Switch>
       </Router>
