@@ -1,11 +1,13 @@
 require("dotenv").config({ path: ".env" });
+const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
-const errorHandler = require("./middleware/error")
+const errorHandler = require("./middleware/error");
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 app.use("/api/auth/", require("./routes/auth.route"));
 app.use("/api/private/", require("./routes/private.route"));
 
@@ -27,14 +29,11 @@ const connectDB = async () => {
     });
 };
 
-connectDB()
+connectDB();
 
 //Error Handler last middleware
-app.use(errorHandler)
+app.use(errorHandler);
 
 //start server
 const port = process.env.PORT;
 app.listen(port, () => console.log(`server is running on ${port}`));
-
-
-
