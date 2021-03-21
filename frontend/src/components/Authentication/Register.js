@@ -38,12 +38,6 @@ const Register = ({ authorized, setAuthorized }) => {
       });
       let responseData = response.data;
 
-      //new account created
-      res.status(201).json({
-        succes: true,
-        message: "new account created",
-      });
-
       //setToken, authorize and redirect
       setAuthorized(true);
       localStorage.setItem("token", responseData.token);
@@ -51,24 +45,21 @@ const Register = ({ authorized, setAuthorized }) => {
 
       console.log(response);
     } catch (error) {
-      if (error) {
-        let response = error.response.data;
-        alert(response.error);
-      }
+      console.log(error);
+      let response = error.response.data;
+      alert(response.error);
     }
   };
-  if (authorized) {
-    history.push("/");
-  }
+
   return (
-    <div className="w-full h-full bg-yellow-400 p-8 py-12 space-y-8">
-      <div className="w-full h-full flex flex-col items-center justify-center space-y-2">
+    <div className="w-full h-full bg-yellow-400 p-8 py-12 space-y-12">
+      <div className="w-full h-full flex flex-col items-center justify-center space-y-4">
         <p className="text-2xl font-bold">Welcome</p>
         <p className="text-xl font-medium"> </p>
         <p className="text-xl font-medium">To get started create an acount</p>
       </div>
-      <div className="h-full w-full px-8 space-y-8">
-        <div className="flex flex-col items-center space-y-2">
+      <div className="h-full w-full px-8 space-y-10">
+        <div className="flex flex-col items-center space-y-4">
           <input
             type="text"
             className="h-12 w-full px-4 rounded-full shadow-lg"

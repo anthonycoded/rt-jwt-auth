@@ -42,13 +42,13 @@ const Login = ({ authorized, setAuthorized }) => {
   };
 
   return (
-    <div className="w-full h-full bg-yellow-400 p-8 py-12 space-y-8">
-      <div className="flex flex-col items-center space-y-4">
+    <div className="w-full h-full bg-yellow-400 p-8 py-12 space-y-12">
+      <div className="flex flex-col items-center space-y-8">
         <p className="font-bold text-4xl">Welcome Back!</p>
         <p className="text-xl font-medium">Sign into your account</p>
       </div>
-      <div className="h-full w-full px-8 space-y-6">
-        <div className="flex flex-col items-center space-y-2">
+      <div className="h-full w-full px-8 space-y-12">
+        <div className="flex flex-col items-center">
           <input
             type="email"
             className="h-12 w-full px-4 rounded-full shadow-lg"
@@ -58,7 +58,7 @@ const Login = ({ authorized, setAuthorized }) => {
             onChange={(e) => inputChange(e)}
           ></input>
         </div>
-        <div className="flex flex-col items-center space-y-2">
+        <div className="flex flex-col items-center">
           <input
             type="password"
             className="h-12 w-full px-4 rounded-full shadow-lg"
